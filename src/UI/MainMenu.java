@@ -14,11 +14,15 @@ import javafx.stage.Stage;
  
 public class MainMenu extends Application {
     
-    public static final int NUM_OF_BTNS = 3;
-    public static final double BTN_WIDTH = 300;
-    public static final double BTN_LENGTH = 50;
-    public static final double SCENE_WIDTH = 300;
-    public static final double SCENE_LENGTH = 200;
+    private static final int NUM_OF_BTNS = 3;
+    private static final double BTN_WIDTH = 300;
+    private static final double BTN_LENGTH = 50;
+    private static final double SCENE_WIDTH = 300;
+    private static final double SCENE_LENGTH = 200;
+    
+    private Stage mainStage;
+    private MainMenu self;
+    
     
 	
 	private Button[] init_btns(){
@@ -29,7 +33,10 @@ public class MainMenu extends Application {
         	 
              @Override
              public void handle(ActionEvent event) {
-                 System.exit(0);
+                 hideMenu();
+                 PlayUI gameboard = new PlayUI();
+                 gameboard.parent = self;
+                 gameboard.start();
              }
          });
          btns[0] = play_btn;
@@ -73,7 +80,8 @@ public class MainMenu extends Application {
 	    return vbox;
 	}
     
-    public void start(Stage primaryStage) {        
+    public void start(Stage primaryStage) {   
+    	self = this;
         Button[] allBtns = init_btns();
         VBox root = createPane(allBtns);       
         Scene scene = new Scene(root, SCENE_WIDTH, SCENE_LENGTH);
@@ -81,6 +89,15 @@ public class MainMenu extends Application {
         primaryStage.setTitle("Main Menu");
         primaryStage.setScene(scene);
         primaryStage.show();
+        mainStage = primaryStage;
+    }
+    
+    public void hideMenu() {
+    	mainStage.hide();
+    }
+    
+    public void showMenu() {
+    	mainStage.show();
     }
  public static void main(String[] args) {
         launch(args);
